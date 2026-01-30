@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITBM-EMI | Industry Trends & Business Models</title>
+    
+    <!-- Fonts: Merriweather for headings (Authority), Inter for UI (Readability) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Noto Sans TC for Traditional Chinese -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- BCG Professional Style & Dark Mode Variables --- */
+        :root {
+            --bg-color: #1e1e1e; /* Charcoal Dark */
+            --card-bg: #2d2d2d;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --accent-green: #00d18b; /* BCG-like Emerald */
+            --accent-blue: #005c97; /* Deep Professional Blue */
+            --border-color: #444444;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --font-serif: 'Merriweather', serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-tc: 'Noto Sans TC', sans-serif;
+        }
+
+        /* Light Mode Override (Toggleable) */
+        body.light-mode {
+            --bg-color: #f4f4f4;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --border-color: #dddddd;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --accent-green: #00875a; /* Darker green for light mode contrast */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+        
+        /* Chinese Font Override */
+        body.lang-zh, body.lang-zh h1, body.lang-zh h2, body.lang-zh h3, body.lang-zh h4, body.lang-zh .brand-area {
+            font-family: var(--font-tc), sans-serif !important;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .brand-area {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.1rem; /* Slightly smaller to fit long title */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            user-select: none;
+            max-width: 70%;
+        }
+
+        .brand-area span.brand-acronym {
+            color: var(--accent-green);
+            white-space: nowrap;
+        }
+
+        .brand-area span#brand-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            font-family: var(--font-sans);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+        }
+
+        body.lang-zh .icon-btn {
+            font-family: var(--font-tc);
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+        
+        .lang-btn {
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            min-width: 50px;
+        }
+
+        .hamburger {
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            color: var(--text-main);
+            margin-left: 5px;
+        }
+
+        /* --- Dropdown Menu --- */
+        #mobile-menu {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background-color: var(--card-bg);
+            border-bottom: 3px solid var(--accent-green);
+            transform: translateY(-150%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 999;
+            box-shadow: var(--shadow);
+            
+            /* SCROLL FIX */
+            max-height: calc(100vh - 70px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            padding: 18px 25px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        body.lang-zh .menu-item {
+            font-family: var(--font-tc);
+        }
+
+        .menu-item:hover {
+            background-color: rgba(0, 209, 139, 0.05);
+            color: var(--accent-green);
+        }
+
+        .menu-item.dashboard-link {
+            border-bottom: none;
+            font-weight: bold;
+            color: var(--accent-green);
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Overlay to close menu */
+        #menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(2px);
+            z-index: 900;
+            display: none;
+        }
+
+        #menu-overlay.active {
+            display: block;
+        }
+
+        /* --- Main Content --- */
+        main {
+            padding: 110px 20px 60px; /* Top padding for fixed header */
+            max-width: 1100px;
+            margin: 0 auto;
+            min-height: 85vh;
+        }
+
+        .section-header {
+            margin-bottom: 40px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            border-left: 6px solid var(--accent-green);
+            padding-left: 20px;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            padding-left: 26px;
+        }
+
+        /* --- Tabs System (Odd/Even Weeks) --- */
+        .tabs {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            color: var(--text-muted);
+            padding: 15px 25px;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 4px 4px 0 0;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        body.lang-zh .tab-btn {
+            font-family: var(--font-tc);
+        }
+
+        .tab-btn:hover {
+            background-color: rgba(255,255,255,0.05);
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            background-color: var(--card-bg);
+            color: var(--accent-green);
+            border-top: 4px solid var(--accent-green);
+            border-bottom: 1px solid var(--card-bg); /* Blend with content */
+            margin-bottom: -1px; /* Overlap border */
+            z-index: 5;
+        }
+
+        .tab-content {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 0 0 4px 4px;
+            border: 1px solid var(--border-color);
+            display: none;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Content Cards & Typography --- */
+        .content-block {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .content-block:last-child {
+            border-bottom: none;
+        }
+
+        h3 {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h4 {
+            color: var(--accent-green);
+            font-size: 1.1rem;
+            margin: 20px 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p, li {
+            font-size: 1rem;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li::marker {
+            color: var(--accent-green);
+        }
+
+        a {
+            color: var(--accent-green);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--accent-green);
+            transition: all 0.2s;
+        }
+
+        a:hover {
+            background-color: rgba(0, 209, 139, 0.1);
+            border-bottom-style: solid;
+        }
+
+        /* --- Prompt Box --- */
+        .prompt-box {
+            background-color: rgba(0,0,0,0.3);
+            border-left: 4px solid var(--accent-green);
+            padding: 15px;
+            font-family: monospace;
+            font-size: 0.95rem;
+            color: #dcdcdc;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+            line-height: 1.5;
+        }
+
+        /* --- Checkboxes & Forms --- */
+        .task-list {
+            margin-top: 20px;
+            background-color: rgba(0,0,0,0.15);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .progress-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .progress-check:hover {
+            background-color: rgba(255,255,255,0.05);
+            border-color: var(--border-color);
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 3px;
+            accent-color: var(--accent-green);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .progress-check span {
+            font-size: 0.95rem;
+        }
+
+        /* --- Dashboard Styling --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .dash-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            line-height: 1;
+            font-family: var(--font-serif);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 4px;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-green);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-green);
+            color: #121212;
+            border: none;
+            padding: 14px 25px;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            margin-top: 10px;
+            font-family: var(--font-sans);
+        }
+
+        body.lang-zh .btn-primary {
+            font-family: var(--font-tc);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .instructor-info {
+            text-align: right;
+        }
+        
+        /* Footer Links Style */
+        footer a {
+            color: var(--text-muted);
+            border-bottom: 1px dotted var(--text-muted);
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            color: var(--accent-green);
+            border-bottom: 1px solid var(--accent-green);
+            background-color: transparent;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .section-title { font-size: 1.8rem; }
+            .footer-content { flex-direction: column; text-align: center; }
+            .instructor-info { text-align: center; margin-top: 10px; }
+            .tabs { flex-direction: column; }
+            .tab-btn { border-radius: 4px; width: 100%; margin-bottom: 5px; }
+            .tab-btn.active { border-top: 1px solid var(--border-color); border-left: 5px solid var(--accent-green); }
+            .tab-content { padding: 25px; }
+            .brand-area { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="brand-area" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <span class="brand-acronym">ITBM</span>&nbsp;| <span id="brand-text">Industry Trends and Business Models</span>
+        </div>
+        <div class="nav-controls">
+            <!-- Language Toggle -->
+            <button class="icon-btn lang-btn" onclick="toggleLanguage()" title="Switch Language">ENG</button>
+            <!-- Theme Toggle -->
+            <button class="icon-btn" onclick="toggleTheme()" title="Switch Light/Dark Mode">☀/☾</button>
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+        </div>
+    </header>
+
+    <!-- Overlay -->
+    <div id="menu-overlay" onclick="closeMenu()"></div>
+
+    <!-- Dropdown Menu -->
+    <nav id="mobile-menu">
+        <div class="menu-item" onclick="loadContent('w1-2')">
+            <span data-i18n="menu_w12">Phase 1: Onboarding (W1-2)</span>
+            <small style="color:var(--text-muted)" data-i18n="menu_w12_sub">Start Here</small>
+        </div>
+        <div class="menu-item" onclick="loadContent('w3-4')">
+            <span data-i18n="menu_w34">Module 1: Semiconductor (W3-4)</span>
+            <small style="color:var(--text-muted)" data-i18n="menu_w34_sub">Macro Analysis</small>
+        </div>
+        <div class="menu-item" onclick="loadContent('w5-6')">
+            <span data-i18n="menu_w56">Module 2: Smart Home (W5-6)</span>
+            <small style="color:var(--text-muted)" data-i18n="menu_w56_sub">User Needs</small>
+        </div>
+        <!-- Placeholders for future modules -->
+        <div class="menu-item" style="opacity: 0.4; cursor: not-allowed;">
+            <span data-i18n="menu_w78">Module 3: Drone (W7-8)</span>
+            <small data-i18n="coming_soon">Coming Soon</small>
+        </div>
+        <div class="menu-item" style="opacity: 0.4; cursor: not-allowed;">
+            <span data-i18n="menu_w910">Module 4: Agentic AI (W9-10)</span>
+            <small data-i18n="coming_soon">Coming Soon</small>
+        </div>
+        <div class="menu-item" style="opacity: 0.4; cursor: not-allowed;">
+            <span data-i18n="menu_w1112">Module 5: Physical AI (W11-12)</span>
+            <small data-i18n="coming_soon">Coming Soon</small>
+        </div>
+         <div class="menu-item" style="opacity: 0.4; cursor: not-allowed;">
+            <span data-i18n="menu_w1314">Module 6: Auto-Driving (W13-14)</span>
+            <small data-i18n="coming_soon">Coming Soon</small>
+        </div>
+         <div class="menu-item" style="opacity: 0.4; cursor: not-allowed;">
+            <span data-i18n="menu_w1516">Final Phase: Term Project (W15-16)</span>
+            <small data-i18n="coming_soon">Coming Soon</small>
+        </div>
+
+        <div class="menu-item dashboard-link" onclick="loadContent('dashboard')">
+            <span data-i18n="menu_dash">📊 Learning Log & Export</span>
+            <small data-i18n="menu_dash_sub">Submit Progress</small>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+        <!-- Default Content -->
+        <div style="text-align: center; padding-top: 80px; animation: fadeIn 0.8s;">
+            <h1 style="font-family: var(--font-serif); font-size: 3rem; margin-bottom: 20px;">Welcome to ITBM-EMI</h1>
+            <p style="color: var(--text-muted); font-size: 1.2rem; margin-bottom: 40px;" data-i18n="welcome_sub">
+                Industry Trends and Business Models | Spring 2026
+            </p>
+            <div id="start-btn" style="display: inline-block; padding: 20px 40px; border: 1px solid var(--accent-green); border-radius: 50px; color: var(--accent-green); font-weight: bold; cursor: pointer;" onclick="toggleMenu()" data-i18n="start_learning">
+                Start Learning ➔
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="left">
+                <p><strong data-i18n="footer_title">Industry Trends and Business Models</strong></p>
+                <p style="font-size: 0.8rem; opacity: 0.7;"><span data-i18n="last_updated">Last Updated</span>: <span id="date-display"></span> | Version 3.3.0</p>
+                <p style="font-size: 0.8rem; opacity: 0.7;">&copy; 2026 <a href="https://rpage.ncnu.edu.tw/" target="_blank" data-i18n="university_name">National Chi Nan University</a>.</p>
+            </div>
+            <div class="instructor-info">
+                <p style="color: var(--text-main); font-weight: bold;"><span data-i18n="instructor">Instructor</span>: <a href="https://www.ibs.ncnu.edu.tw/index.php/faculty/tenured-professor/299-smlo" target="_blank">Prof. Shihmin Lo</a></p>
+                <p><a href="https://www.ibs.ncnu.edu.tw/" target="_blank" data-i18n="dept_name">International Business Studies</a></p>
+                <p style="font-size: 0.8rem; color: var(--accent-green);" data-i18n="course_slogan">Become a competent Product Manager in MNCS</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Translations (Static UI) ---
+        const uiTranslations = {
+            en: {
+                brand_text: "Industry Trends and Business Models",
+                menu_w12: "Phase 1: Onboarding (W1-2)",
+                menu_w12_sub: "Start Here",
+                menu_w34: "Module 1: Semiconductor (W3-4)",
+                menu_w34_sub: "Macro Analysis",
+                menu_w56: "Module 2: Smart Home (W5-6)",
+                menu_w56_sub: "User Needs",
+                menu_w78: "Module 3: Drone (W7-8)",
+                menu_w910: "Module 4: Agentic AI (W9-10)",
+                menu_w1112: "Module 5: Physical AI (W11-12)",
+                menu_w1314: "Module 6: Auto-Driving (W13-14)",
+                menu_w1516: "Final Phase: Term Project (W15-16)",
+                coming_soon: "Coming Soon",
+                menu_dash: "📊 Learning Log & Export",
+                menu_dash_sub: "Submit Progress",
+                welcome_sub: "Industry Trends and Business Models | Spring 2026",
+                start_learning: "Start Learning ➔",
+                footer_title: "Industry Trends and Business Models",
+                last_updated: "Last Updated",
+                university_name: "National Chi Nan University",
+                instructor: "Instructor",
+                dept_name: "International Business Studies",
+                course_slogan: "Become a competent Product Manager in MNCS"
+            },
+            zh: {
+                brand_text: "新興產業趨勢與商業模式",
+                menu_w12: "第一階段：啟動與校準 (W1-2)",
+                menu_w12_sub: "從這裡開始",
+                menu_w34: "模組一：半導體製造 (W3-4)",
+                menu_w34_sub: "總體環境分析",
+                menu_w56: "模組二：智慧家庭 (W5-6)",
+                menu_w56_sub: "使用者需求",
+                menu_w78: "模組三：無人機 (W7-8)",
+                menu_w910: "模組四：代理流程自動化 (W9-10)",
+                menu_w1112: "模組五：實體 AI (W11-12)",
+                menu_w1314: "模組六：自駕車 (W13-14)",
+                menu_w1516: "最終階段：期末專案 (W15-16)",
+                coming_soon: "敬請期待",
+                menu_dash: "📊 學習歷程與匯出",
+                menu_dash_sub: "提交進度",
+                welcome_sub: "新興產業趨勢與商業模式 | 2026 春季班",
+                start_learning: "開始學習 ➔",
+                footer_title: "新興產業趨勢與商業模式",
+                last_updated: "最後更新",
+                university_name: "國立暨南國際大學",
+                instructor: "授課教師",
+                dept_name: "國際企業學系所",
+                course_slogan: "成為一位在國際企業裡稱職的產品經理"
+            }
+        };
+
+        // --- Course Data (Content Management - Bilingual) ---
+        const courseData = {
+            'w1-2': {
+                en: `
+                <div class="section-header">
+                    <div class="section-title">Phase 1: Onboarding & Calibration</div>
+                    <div class="section-subtitle">Weeks 1-2 | Orientation, PM Competency, and Tools</div>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="openTab(event, 'w1')">Week 1: Self-Discovery (Worksheet)</button>
+                    <button class="tab-btn" onclick="openTab(event, 'w2')">Week 2: Career Positioning (Tools)</button>
+                </div>
+
+                <div id="w1" class="tab-content active">
+                    <div class="content-block">
+                        <h3>🎯 Week 1 Objectives</h3>
+                        <p>Welcome to ITBM-EMI. This week, we align our goals and conduct a self-audit of your PM competencies (KSA).</p>
+                        <ul>
+                            <li>Understand the "Dual-Track" learning: PM Competency + EMI/GenAI.</li>
+                            <li>Commit to the AI Integrity Pledge.</li>
+                            <li>Complete <strong>Worksheet #1</strong> to map your current skills.</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🤖 AI Co-pilot Activity</h3>
+                        <p>Use ChatGPT/Gemini to critique your career path. Copy/Paste the prompt below:</p>
+                        <div class="prompt-box">
+                            "I am a university student majoring in [Your Major]. I want to become a Product Manager in [Target Industry]. List 3 critical hard skills and 3 soft skills I need to learn in this 'Industry Trends' course."
+                        </div>
+                    </div>
+
+                    <div class="task-list">
+                        <h4>✅ Week 1 Checklist</h4>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w1-read-syllabus')"> 
+                            <span>I have read the course syllabus and GenAI policy.</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w1-ws1-completed')"> 
+                            <span>I have completed <strong>Worksheet #1: My PM Digital Resume</strong>.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="w2" class="tab-content">
+                    <div class="content-block">
+                        <h3>🗺️ Week 2: Career Positioning Map</h3>
+                        <p>We define your target using the "Zoom-in" approach:</p>
+                        <p><em>Industry ➔ Enterprise ➔ Department ➔ Job Title ➔ Duties ➔ Competency</em></p>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>📝 Worksheet #2: Competency Radar</h3>
+                        <ul>
+                            <li><strong>Step 1:</strong> Find a real Job Description (JD) on LinkedIn or 104.</li>
+                            <li><strong>Step 2:</strong> Map required skills to the 6-point radar (Business, Tech, Empathy, Data, PjM, Comm).</li>
+                            <li><strong>Step 3:</strong> Identify your "Gap" and choose a course module to fix it.</li>
+                        </ul>
+                    </div>
+
+                    <div class="task-list">
+                        <h4>✅ Week 2 Checklist</h4>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w2-ws2-uploaded')"> 
+                            <span>I have uploaded Worksheet #2 to Moodle/JotForm.</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w2-group-joined')"> 
+                            <span>I have joined a Study Group (G1-G6) based on my industry interest.</span>
+                        </label>
+                    </div>
+                </div>`,
+                zh: `
+                <div class="section-header">
+                    <div class="section-title">第一階段：啟動與校準</div>
+                    <div class="section-subtitle">第 1-2 週 | 課程導航、PM 職能與工具導入</div>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="openTab(event, 'w1')">第 1 週：自我探索 (學習單)</button>
+                    <button class="tab-btn" onclick="openTab(event, 'w2')">第 2 週：職涯定位 (工具)</button>
+                </div>
+
+                <div id="w1" class="tab-content active">
+                    <div class="content-block">
+                        <h3>🎯 第一週目標</h3>
+                        <p>歡迎來到 ITBM-EMI。本週我們將對齊課程目標，並針對您的 PM 職能 (KSA) 進行自我盤點。</p>
+                        <ul>
+                            <li>理解「雙軌學習」模式：PM 職能養成 + EMI/GenAI 應用。</li>
+                            <li>簽署 AI 誠信宣言 (AI Integrity Pledge)。</li>
+                            <li>完成 <strong>學習單 #1</strong> 以盤點您目前的技能現狀。</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🤖 AI 輔助活動</h3>
+                        <p>利用 ChatGPT/Gemini 評估您的職涯路徑。請複製以下 Prompt：</p>
+                        <div class="prompt-box">
+                            "I am a university student majoring in [Your Major]. I want to become a Product Manager in [Target Industry]. List 3 critical hard skills and 3 soft skills I need to learn in this 'Industry Trends' course."
+                        </div>
+                    </div>
+
+                    <div class="task-list">
+                        <h4>✅ 第一週檢核表</h4>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w1-read-syllabus')"> 
+                            <span>我已詳閱課程大綱與 GenAI 使用規範。</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w1-ws1-completed')"> 
+                            <span>我已完成 <strong>學習單 #1：我的 PM 數位履歷</strong>。</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="w2" class="tab-content">
+                    <div class="content-block">
+                        <h3>🗺️ 第二週：職涯定位層級圖</h3>
+                        <p>使用「由大到小 (Zoom-in)」的方法定義您的目標：</p>
+                        <p><em>產業 (Industry) ➔ 企業 (Enterprise) ➔ 部門 (Department) ➔ 職稱 (Job Title) ➔ 職務 (Duties) ➔ 職能 (Competency)</em></p>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>📝 學習單 #2：職能雷達圖</h3>
+                        <ul>
+                            <li><strong>步驟 1：</strong> 在 LinkedIn 或 104 上找到一份真實的職缺描述 (JD)。</li>
+                            <li><strong>步驟 2：</strong> 將所需技能對應到 6 點雷達圖 (商業思維、技術理解、同理心、數據分析、專案管理、溝通)。</li>
+                            <li><strong>步驟 3：</strong> 找出您的「缺口 (Gap)」，並選擇一個課程模組來補強它。</li>
+                        </ul>
+                    </div>
+
+                    <div class="task-list">
+                        <h4>✅ 第二週檢核表</h4>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w2-ws2-uploaded')"> 
+                            <span>我已上傳學習單 #2 至 Moodle/JotForm。</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w2-group-joined')"> 
+                            <span>我已根據產業興趣加入學習小組 (G1-G6)。</span>
+                        </label>
+                    </div>
+                </div>`
+            },
+            'w3-4': {
+                en: `
+                <div class="section-header">
+                    <div class="section-title">Module 1: Semiconductor & Macro Analysis</div>
+                    <div class="section-subtitle">Weeks 3-4 | Geopolitics, Supply Chain, and Risk Management</div>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="openTab(event, 'w3')">Week 3: Theory (Coggle)</button>
+                    <button class="tab-btn" onclick="openTab(event, 'w4')">Week 4: Industry (PhBL)</button>
+                </div>
+
+                <div id="w3" class="tab-content active">
+                    <div class="content-block">
+                        <h3>📚 Week 3: Frameworks</h3>
+                        <p>Understand the <strong>PESTEL</strong> framework and the Semiconductor <strong>Smile Curve</strong>.</p>
+                        <h4>Required Reading</h4>
+                        <ul>
+                            <li><strong>Lecture Notes:</strong> PESTEL Analysis & Value Chain Choke Points.</li>
+                            <li><strong>Article:</strong> <a href="#" onclick="return false;">"Geopolitical Risk Drives U.S. Crackdown on Advanced Chip Exports" (Dec 2025)</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🧠 Group Task: Coggle Mindmap</h3>
+                        <p>Collaborate with your group to map <strong>"Global Semiconductor Value Chain & Risks"</strong>.</p>
+                        <ul>
+                            <li>Branch 1: Upstream (EDA/IP) / Midstream (Mfg) / Downstream.</li>
+                            <li>Branch 2: Identify "Choke Points" (Monopolies).</li>
+                            <li>Branch 3: Apply PESTEL risk factors to each stage.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="task-list">
+                        <h4>✅ Week 3 Checklist</h4>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w3-reading')"> 
+                            <span>I have completed the readings on PESTEL & Supply Chain.</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w3-coggle')"> 
+                            <span>Group Coggle Mindmap created and link submitted.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="w4" class="tab-content">
+                    <div class="content-block">
+                        <h3>🏭 Week 4: Project Global Footprint</h3>
+                        <p><strong>Scenario:</strong> You are a Strategic PM at a top Foundry. Board dilemma: Expand in Taiwan or Germany?</p>
+                        <h4>Required Videos</h4>
+                        <ul>
+                            <li>Video 1: "TSMC in Arizona: Culture Clash or New Standard?" (2025)</li>
+                            <li>Video 2: "The Race for 2nm: Who Will Win?"</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🤖 AI Red Teaming</h3>
+                        <p>Use AI to simulate opposition. Prompt example:</p>
+                        <div class="prompt-box">
+                            "Act as a German Metalworkers' Union Leader. Challenge my plan to bring Taiwanese work culture to the Dresden fab. Be critical about work-life balance."
+                        </div>
+                    </div>
+
+                    <div class="task-list">
+                        <h4>✅ Week 4 Checklist (Deliverables)</h4>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w4-video')"> 
+                            <span>I have watched the assigned case videos.</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w4-risk-matrix')"> 
+                            <span><strong>Risk Assessment Matrix (PDF)</strong> completed.</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w4-summary')"> 
+                            <span><strong>Executive Summary</strong> with final recommendation completed.</span>
+                        </label>
+                    </div>
+                </div>`,
+                zh: `
+                <div class="section-header">
+                    <div class="section-title">模組一：半導體製造與總體環境分析</div>
+                    <div class="section-subtitle">第 3-4 週 | 地緣政治、供應鏈與風險管理</div>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="openTab(event, 'w3')">第 3 週：理論架構 (Coggle)</button>
+                    <button class="tab-btn" onclick="openTab(event, 'w4')">第 4 週：產業實務 (PhBL)</button>
+                </div>
+
+                <div id="w3" class="tab-content active">
+                    <div class="content-block">
+                        <h3>📚 第 3 週：分析架構</h3>
+                        <p>理解 <strong>PESTEL</strong> 分析架構與半導體產業的 <strong>微笑曲線</strong>。</p>
+                        <h4>指定閱讀</h4>
+                        <ul>
+                            <li><strong>講義：</strong> PESTEL 分析與價值鏈咽喉點 (Choke Points)。</li>
+                            <li><strong>文章：</strong> <a href="#" onclick="return false;">"Geopolitical Risk Drives U.S. Crackdown on Advanced Chip Exports" (Dec 2025)</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🧠 小組任務：Coggle 心智圖</h3>
+                        <p>協作繪製 <strong>「全球半導體價值鏈與地緣政治風險」</strong>。</p>
+                        <ul>
+                            <li>分支 1：上游 (EDA/IP) / 中游 (製造) / 下游 (封測)。</li>
+                            <li>分支 2：標示「咽喉點」(被單一國家壟斷的技術)。</li>
+                            <li>分支 3：將 PESTEL 風險因子應用於各階段。</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="task-list">
+                        <h4>✅ 第 3 週檢核表</h4>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w3-reading')"> 
+                            <span>我已完成關於 PESTEL 與供應鏈的閱讀材料。</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w3-coggle')"> 
+                            <span>小組 Coggle 心智圖已建立並提交連結。</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="w4" class="tab-content">
+                    <div class="content-block">
+                        <h3>🏭 第 4 週：全球布局計畫 (Project Global Footprint)</h3>
+                        <p><strong>情境：</strong> 您是頂尖晶圓代工廠的策略 PM。董事會難題：在台灣擴廠還是去德國？</p>
+                        <h4>指定影片</h4>
+                        <ul>
+                            <li>影片 1："TSMC in Arizona: Culture Clash or New Standard?" (2025)</li>
+                            <li>影片 2："The Race for 2nm: Who Will Win?"</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🤖 AI 紅隊演練 (Red Teaming)</h3>
+                        <p>使用 AI 模擬反對意見。Prompt 範例：</p>
+                        <div class="prompt-box">
+                            "Act as a German Metalworkers' Union Leader. Challenge my plan to bring Taiwanese work culture to the Dresden fab. Be critical about work-life balance."
+                        </div>
+                    </div>
+
+                    <div class="task-list">
+                        <h4>✅ 第 4 週檢核表 (產出物)</h4>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w4-video')"> 
+                            <span>我已觀看指定的案例影片。</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w4-risk-matrix')"> 
+                            <span><strong>風險評估矩陣 (PDF)</strong> 已完成。</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w4-summary')"> 
+                            <span><strong>決策建議書 (Executive Summary)</strong> 已完成。</span>
+                        </label>
+                    </div>
+                </div>`
+            },
+            'w5-6': {
+                en: `
+                <div class="section-header">
+                    <div class="section-title">Module 2: Smart Home & User Needs</div>
+                    <div class="section-subtitle">Weeks 5-6 | Silver Economy, Aging in Place, and Empathy</div>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="openTab(event, 'w5')">Week 5: Theory (Coggle)</button>
+                    <button class="tab-btn" onclick="openTab(event, 'w6')">Week 6: Industry (PhBL)</button>
+                </div>
+
+                <div id="w5" class="tab-content active">
+                    <div class="content-block">
+                        <h3>📚 Week 5: Design Thinking & Silver Economy</h3>
+                        <p>We move from Macro (Economy) to Micro (User). Learn the 5 Steps of Design Thinking.</p>
+                        <h4>Required Reading</h4>
+                        <ul>
+                            <li><strong>Lecture Notes:</strong> Design Thinking (Empathize, Define, Ideate, Prototype, Test).</li>
+                            <li><strong>Report:</strong> <a href="#" onclick="return false;">"IMF: The Rise of the Silver Economy (April 2025)"</a> - The "Longevity Dividend".</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🧠 Group Task: Coggle Mindmap</h3>
+                        <p>Map <strong>"The Silver Ecosystem"</strong>.</p>
+                        <ul>
+                            <li><strong>PESTEL:</strong> What drives the silver economy?</li>
+                            <li><strong>Opportunity Map:</strong> Health, Finance, Leisure, Living.</li>
+                            <li><strong>Methodology:</strong> 3 Research methods for elderly users.</li>
+                        </ul>
+                    </div>
+
+                    <div class="task-list">
+                        <h4>✅ Week 5 Checklist</h4>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w5-reading')"> 
+                            <span>I have read the IMF report and lecture notes.</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w5-coggle')"> 
+                            <span>Group Coggle Mindmap completed.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="w6" class="tab-content">
+                    <div class="content-block">
+                        <h3>🏠 Week 6: Project Dignity</h3>
+                        <p><strong>Scenario:</strong> Mrs. Lin (78) lives alone. She needs safety but refuses "surveillance". How do we balance safety vs. dignity?</p>
+                        <h4>Required Videos</h4>
+                        <ul>
+                            <li>Video: "Redefining Aging in Place with AI Sensors" (2025)</li>
+                            <li>Video: "The Privacy Paradox: When Cameras Enter the Home"</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🤖 AI Persona Interview</h3>
+                        <p>Simulate a chat with Mrs. Lin. Don't ask AI for the answer; ask AI to <em>be</em> the user.</p>
+                        <div class="prompt-box">
+                            "Act as Mrs. Lin, a 78-year-old retired teacher in Taiwan. You are proud and independent. I am a PM trying to sell you a safety device. You are skeptical and fear losing your privacy. Answer in Traditional Chinese."
+                        </div>
+                    </div>
+
+                    <div class="task-list">
+                        <h4>✅ Week 6 Checklist (Deliverables)</h4>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w6-video')"> 
+                            <span>I have watched the videos on Smart Home tech.</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w6-persona')"> 
+                            <span><strong>User Persona & Empathy Map (PDF)</strong> completed.</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w6-statement')"> 
+                            <span><strong>Problem Statement (HMW)</strong> defined.</span>
+                        </label>
+                    </div>
+                </div>`,
+                zh: `
+                <div class="section-header">
+                    <div class="section-title">模組二：智慧家庭與使用者需求</div>
+                    <div class="section-subtitle">第 5-6 週 | 銀髮經濟、在地安老與同理心</div>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="openTab(event, 'w5')">第 5 週：理論架構 (Coggle)</button>
+                    <button class="tab-btn" onclick="openTab(event, 'w6')">第 6 週：產業實務 (PhBL)</button>
+                </div>
+
+                <div id="w5" class="tab-content active">
+                    <div class="content-block">
+                        <h3>📚 第 5 週：設計思考與銀髮經濟</h3>
+                        <p>我們從總體 (經濟) 轉向個體 (使用者)。學習設計思考的五個步驟。</p>
+                        <h4>指定閱讀</h4>
+                        <ul>
+                            <li><strong>講義：</strong> 設計思考 (同理、定義、發想、原型、測試)。</li>
+                            <li><strong>報告：</strong> <a href="#" onclick="return false;">"IMF: The Rise of the Silver Economy (April 2025)"</a> - 關於「長壽紅利」。</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🧠 小組任務：Coggle 心智圖</h3>
+                        <p>繪製 <strong>「銀髮生態系」</strong>。</p>
+                        <ul>
+                            <li><strong>PESTEL：</strong> 驅動銀髮經濟的因素是什麼？</li>
+                            <li><strong>機會地圖：</strong> 健康、金融、休閒、居住。</li>
+                            <li><strong>研究方法：</strong> 列出 3 種適合高齡使用者的研究方法。</li>
+                        </ul>
+                    </div>
+
+                    <div class="task-list">
+                        <h4>✅ 第 5 週檢核表</h4>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w5-reading')"> 
+                            <span>我已閱讀 IMF 報告與講義。</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w5-coggle')"> 
+                            <span>小組 Coggle 心智圖已完成。</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="w6" class="tab-content">
+                    <div class="content-block">
+                        <h3>🏠 第 6 週：尊嚴守護計畫 (Project Dignity)</h3>
+                        <p><strong>情境：</strong> 林女士 (78歲) 獨居。她需要安全保障，但拒絕「被監控」。我們如何在安全與尊嚴之間取得平衡？</p>
+                        <h4>指定影片</h4>
+                        <ul>
+                            <li>影片："Redefining Aging in Place with AI Sensors" (2025)</li>
+                            <li>影片："The Privacy Paradox: When Cameras Enter the Home"</li>
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <h3>🤖 AI 人物誌訪談</h3>
+                        <p>模擬與林女士的對話。不要問 AI 答案；請 AI <strong>扮演</strong> 使用者。</p>
+                        <div class="prompt-box">
+                            "Act as Mrs. Lin, a 78-year-old retired teacher in Taiwan. You are proud and independent. I am a PM trying to sell you a safety device. You are skeptical and fear losing your privacy. Answer in Traditional Chinese."
+                        </div>
+                    </div>
+
+                    <div class="task-list">
+                        <h4>✅ 第 6 週檢核表 (產出物)</h4>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w6-video')"> 
+                            <span>我已觀看智慧家庭科技相關影片。</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w6-persona')"> 
+                            <span><strong>人物誌與同理心地圖 (PDF)</strong> 已完成。</span>
+                        </label>
+                        <label class="progress-check">
+                            <input type="checkbox" onchange="saveProgress('w6-statement')"> 
+                            <span><strong>問題定義 (HMW)</strong> 已完成。</span>
+                        </label>
+                    </div>
+                </div>`
+            },
+            'dashboard': {
+                en: `
+                <div class="section-header">
+                    <div class="section-title">Learning Log & Export</div>
+                    <div class="section-subtitle">Track your progress and submit your weekly evidence.</div>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <!-- Progress Card -->
+                    <div class="dash-card">
+                        <h3>📈 Progress Overview</h3>
+                        <p style="margin-top:10px; color:var(--text-muted)">Current local progress (Saved in browser):</p>
+                        <div style="margin-top: 30px; text-align: center;">
+                            <div id="progress-stats">
+                                <span style="font-size:1.2rem; color:var(--text-muted)">Calculating...</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 15px;">
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">
+                                *Note: This data is stored in your browser (LocalStorage). It will be lost if you clear cache or switch devices. Please export regularly.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Export Form -->
+                    <div class="dash-card">
+                        <h3>📤 Export Log to CSV</h3>
+                        <p style="margin-bottom: 20px;">Generate your learning proof for Moodle submission.</p>
+                        
+                        <form id="export-form" onsubmit="exportCSV(event)">
+                            <div class="form-group">
+                                <label>Study Group</label>
+                                <select id="input-group" class="form-control" required>
+                                    <option value="" disabled selected>Select Group...</option>
+                                    <option value="G1">G1</option>
+                                    <option value="G2">G2</option>
+                                    <option value="G3">G3</option>
+                                    <option value="G4">G4</option>
+                                    <option value="G5">G5</option>
+                                    <option value="G6">G6</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Grade / Class</label>
+                                <input type="text" id="input-grade" class="form-control" placeholder="e.g., IBS3" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Student Name</label>
+                                <input type="text" id="input-name" class="form-control" placeholder="e.g., Jeremy Wang" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Submission Week</label>
+                                <select id="input-week" class="form-control" required>
+                                    <option value="" disabled selected>Select Week...</option>
+                                    <option value="W1">W1</option>
+                                    <option value="W2">W2</option>
+                                    <option value="W3">W3</option>
+                                    <option value="W4">W4</option>
+                                    <option value="W5">W5</option>
+                                    <option value="W6">W6</option>
+                                    <option value="W7">W7</option>
+                                    <option value="W8">W8</option>
+                                    <option value="W9">W9</option>
+                                    <option value="W10">W10</option>
+                                    <option value="W11">W11</option>
+                                    <option value="W12">W12</option>
+                                    <option value="W13">W13</option>
+                                    <option value="W14">W14</option>
+                                    <option value="W15">W15</option>
+                                    <option value="W16">W16</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn-primary">Download CSV</button>
+                        </form>
+                    </div>
+                </div>`,
+                zh: `
+                <div class="section-header">
+                    <div class="section-title">學習歷程與匯出</div>
+                    <div class="section-subtitle">追蹤您的學習進度並提交每週憑證。</div>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <!-- Progress Card -->
+                    <div class="dash-card">
+                        <h3>📈 進度總覽</h3>
+                        <p style="margin-top:10px; color:var(--text-muted)">目前本機進度 (儲存於瀏覽器)：</p>
+                        <div style="margin-top: 30px; text-align: center;">
+                            <div id="progress-stats">
+                                <span style="font-size:1.2rem; color:var(--text-muted)">計算中...</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 15px;">
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">
+                                *注意：此資料儲存於您的瀏覽器 (LocalStorage)。若清除快取或更換裝置，資料將會遺失。請定期匯出。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Export Form -->
+                    <div class="dash-card">
+                        <h3>📤 匯出學習紀錄 (CSV)</h3>
+                        <p style="margin-bottom: 20px;">產生學習憑證以提交至 Moodle。</p>
+                        
+                        <form id="export-form" onsubmit="exportCSV(event)">
+                            <div class="form-group">
+                                <label>學習小組</label>
+                                <select id="input-group" class="form-control" required>
+                                    <option value="" disabled selected>選擇組別...</option>
+                                    <option value="G1">G1</option>
+                                    <option value="G2">G2</option>
+                                    <option value="G3">G3</option>
+                                    <option value="G4">G4</option>
+                                    <option value="G5">G5</option>
+                                    <option value="G6">G6</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>系級</label>
+                                <input type="text" id="input-grade" class="form-control" placeholder="例如：IBS3" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>姓名</label>
+                                <input type="text" id="input-name" class="form-control" placeholder="例如：王小明" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>提交週次</label>
+                                <select id="input-week" class="form-control" required>
+                                    <option value="" disabled selected>選擇週次...</option>
+                                    <option value="W1">第 1 週</option>
+                                    <option value="W2">第 2 週</option>
+                                    <option value="W3">第 3 週</option>
+                                    <option value="W4">第 4 週</option>
+                                    <option value="W5">第 5 週</option>
+                                    <option value="W6">第 6 週</option>
+                                    <option value="W7">第 7 週</option>
+                                    <option value="W8">第 8 週</option>
+                                    <option value="W9">第 9 週</option>
+                                    <option value="W10">第 10 週</option>
+                                    <option value="W11">第 11 週</option>
+                                    <option value="W12">第 12 週</option>
+                                    <option value="W13">第 13 週</option>
+                                    <option value="W14">第 14 週</option>
+                                    <option value="W15">第 15 週</option>
+                                    <option value="W16">第 16 週</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn-primary">下載 CSV 檔案</button>
+                        </form>
+                    </div>
+                </div>`
+            }
+        };
+
+        // --- Core Functions ---
+
+        // State Management
+        let currentLang = 'en'; // 'en' or 'zh'
+        let currentModule = null; // Track currently loaded module to refresh on language switch
+
+        // 1. Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            document.getElementById('date-display').innerText = today.toISOString().split('T')[0];
+            loadTheme();
+            // Default to English is fine, no action needed unless we want to persist lang
+        });
+
+        // 2. Navigation
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('active');
+            document.getElementById('menu-overlay').classList.toggle('active');
+        }
+
+        function closeMenu() {
+            document.getElementById('mobile-menu').classList.remove('active');
+            document.getElementById('menu-overlay').classList.remove('active');
+        }
+
+        function loadContent(moduleId) {
+            currentModule = moduleId; // Save for language switching
+            const main = document.getElementById('main-content');
+            
+            if(courseData[moduleId]) {
+                // Load content based on current language
+                main.innerHTML = courseData[moduleId][currentLang];
+                
+                // If loading dashboard, update stats immediately
+                if(moduleId === 'dashboard') updateDashboardStats();
+                
+                // Important: Restore checkboxes for the loaded module
+                restoreProgress();
+            } else {
+                main.innerHTML = `<div style="padding-top:50px; text-align:center;"><h2>Content not found</h2></div>`;
+            }
+            
+            // UX
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            closeMenu();
+        }
+
+        // 3. Language Toggle Logic
+        function toggleLanguage() {
+            // Switch state
+            currentLang = currentLang === 'en' ? 'zh' : 'en';
+            
+            // Update Lang Button Text
+            const langBtn = document.querySelector('.lang-btn');
+            langBtn.innerText = currentLang === 'en' ? 'ENG' : '繁中';
+
+            // Update Body Class for Fonts
+            if (currentLang === 'zh') {
+                document.body.classList.add('lang-zh');
+                document.documentElement.lang = 'zh-TW';
+            } else {
+                document.body.classList.remove('lang-zh');
+                document.documentElement.lang = 'en';
+            }
+
+            // Update Static UI Elements (Menu, Footer, Header)
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (uiTranslations[currentLang][key]) {
+                    el.innerText = uiTranslations[currentLang][key];
+                }
+            });
+
+            // Reload Current Content (if a module is open)
+            if (currentModule) {
+                loadContent(currentModule);
+            } else {
+                // If on homepage (start screen), reload start screen text manually is handled by data-i18n, 
+                // but if we are on the initial landing view without clicking anything yet:
+                // Actually the initial view is static HTML. 
+                // Let's ensure the "Start Learning" button inside Main works.
+                // It has data-i18n, so it updated above.
+            }
+        }
+
+        // 4. Tabs
+        function openTab(evt, tabName) {
+            const contents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < contents.length; i++) {
+                contents[i].style.display = "none";
+                contents[i].classList.remove("active");
+            }
+            const buttons = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // 5. Progress Tracking (LocalStorage)
+        function saveProgress(id) {
+            let progress = JSON.parse(localStorage.getItem('itbm_progress')) || {};
+            
+            // Find the checkbox state
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                const onchangeAttr = cb.getAttribute('onchange');
+                if(onchangeAttr && onchangeAttr.includes(id)) {
+                    progress[id] = cb.checked;
+                    progress[id + '_timestamp'] = new Date().toISOString();
+                }
+            });
+            
+            progress['last_updated'] = new Date().toISOString();
+            localStorage.setItem('itbm_progress', JSON.stringify(progress));
+            
+            // If dashboard is open, update stats live
+            if(document.getElementById('progress-stats')) {
+                updateDashboardStats();
+            }
+        }
+
+        function restoreProgress() {
+            let progress = JSON.parse(localStorage.getItem('itbm_progress')) || {};
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            
+            checkboxes.forEach(cb => {
+                const attr = cb.getAttribute('onchange');
+                if(attr) {
+                    const match = attr.match(/'([^']+)'/);
+                    if(match && match[1]) {
+                        const id = match[1];
+                        if(progress[id] === true) {
+                            cb.checked = true;
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateDashboardStats() {
+            let progress = JSON.parse(localStorage.getItem('itbm_progress')) || {};
+            
+            const taskKeys = Object.keys(progress).filter(k => !k.includes('timestamp') && k !== 'last_updated');
+            const completedCount = taskKeys.filter(k => progress[k] === true).length;
+            
+            const statsDiv = document.getElementById('progress-stats');
+            if(statsDiv) {
+                const label = currentLang === 'en' ? 'Tasks Completed' : '已完成任務';
+                const timeLabel = currentLang === 'en' ? 'Last Activity' : '最後活動時間';
+                const noActivity = currentLang === 'en' ? 'No activity yet' : '尚無活動';
+                
+                statsDiv.innerHTML = `
+                    <div class="stat-number">${completedCount}</div>
+                    <div class="stat-label">${label}</div>
+                    <div style="margin-top: 15px; font-size: 0.8rem; color: #666;">
+                        ${timeLabel}: ${progress['last_updated'] ? new Date(progress['last_updated']).toLocaleString() : noActivity}
+                    </div>
+                `;
+            }
+        }
+
+        // 6. CSV Export
+        function exportCSV(e) {
+            e.preventDefault();
+            
+            const group = document.getElementById('input-group').value;
+            const grade = document.getElementById('input-grade').value;
+            const name = document.getElementById('input-name').value;
+            const week = document.getElementById('input-week').value;
+
+            let progress = JSON.parse(localStorage.getItem('itbm_progress')) || {};
+            let now = new Date().toISOString();
+
+            let csvContent = "\uFEFF"; 
+            csvContent += "Student Information\n";
+            csvContent += `Group,${group}\n`;
+            csvContent += `Grade,${grade}\n`;
+            csvContent += `Name,${name}\n`;
+            csvContent += `Submission Week,${week}\n`;
+            csvContent += `Export Time,${now}\n\n`;
+            
+            csvContent += "Learning Log Details\n";
+            csvContent += "Task ID,Status,Completion Time\n"; 
+            
+            Object.keys(progress).forEach(key => {
+                if(!key.includes('timestamp') && key !== 'last_updated') {
+                    let status = progress[key] ? 'Completed' : 'Pending';
+                    let time = progress[key + '_timestamp'] || 'N/A';
+                    csvContent += `${key},${status},${time}\n`;
+                }
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            
+            const safeName = name.replace(/[^a-zA-Z0-9]/g, "");
+            const filename = `ITBM_${group}_${grade}_${safeName}_${week}.csv`;
+            
+            link.setAttribute("download", filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // 7. Theme Logic
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('itbm_theme', isLight ? 'light' : 'dark');
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('itbm_theme');
+            if(savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        }
+    </script>
+</body>
+</html>
