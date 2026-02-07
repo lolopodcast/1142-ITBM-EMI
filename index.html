@@ -313,6 +313,42 @@
             border-bottom: none;
         }
 
+        /* Flex container for Header + TTS Button */
+        .content-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .content-header-row h3 {
+            margin-bottom: 0; /* Remove bottom margin to align with button */
+            border-bottom: none; /* Remove border if present in flex item, though standard h3 has margin */
+        }
+
+        .tts-btn {
+            font-size: 1.1rem;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            color: var(--accent-green);
+            cursor: pointer;
+            transition: all 0.2s;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+        }
+
+        .tts-btn:hover {
+            opacity: 1;
+            background: rgba(0, 209, 139, 0.1);
+            transform: scale(1.05);
+        }
+
         h3 {
             font-family: var(--font-serif);
             font-size: 1.4rem;
@@ -539,6 +575,20 @@
             .tab-content { padding: 25px; }
             .brand-area { font-size: 1rem; }
         }
+
+        /* --- Print Friendly Styles --- */
+        @media print {
+            body { background-color: #fff; color: #000; }
+            header, footer, .nav-controls, #start-btn, .btn-primary, .tts-btn { display: none !important; }
+            main { padding-top: 0; width: 100%; max-width: 100%; }
+            .tab-content { display: block !important; border: none; box-shadow: none; padding: 0; margin-bottom: 30px; }
+            .tabs { display: none; } /* Hide tabs, show content */
+            .section-title { border-left-color: #000; }
+            a { text-decoration: underline; color: #000; border: none; }
+            .prompt-box { border: 1px solid #ccc; background: #f9f9f9; color: #000; }
+            .card-bg, .dash-card { background: none; border: 1px solid #ccc; box-shadow: none; color: #000; }
+            input[type="checkbox"] { border: 1px solid #000; }
+        }
     </style>
 </head>
 <body>
@@ -550,7 +600,7 @@
         </div>
         <div class="nav-controls">
             <!-- Language Toggle -->
-            <button class="icon-btn lang-btn" onclick="toggleLanguage()" title="Switch Language">ENG</button>
+            <button class="icon-btn lang-btn" onclick="toggleLanguage()" title="Switch Language">ENG/繁中</button>
             <!-- Theme Toggle -->
             <button class="icon-btn" onclick="toggleTheme()" title="Switch Light/Dark Mode">☀/☾</button>
             <div class="hamburger" onclick="toggleMenu()">☰</div>
@@ -620,7 +670,7 @@
         <div class="footer-content">
             <div class="left">
                 <p><strong data-i18n="footer_title">Industry Trends and Business Models</strong></p>
-                <p style="font-size: 0.8rem; opacity: 0.7;"><span data-i18n="last_updated">Last Updated</span>: <span id="date-display"></span> | Version 3.3.0</p>
+                <p style="font-size: 0.8rem; opacity: 0.7;"><span data-i18n="last_updated">Last Updated</span>: <span id="date-display"></span> | Version 3.5.0</p>
                 <p style="font-size: 0.8rem; opacity: 0.7;">&copy; 2026 <a href="https://rpage.ncnu.edu.tw/" target="_blank" data-i18n="university_name">National Chi Nan University</a>.</p>
             </div>
             <div class="instructor-info">
@@ -696,6 +746,7 @@
         };
 
         // --- Course Data (Content Management - Bilingual) ---
+        // Added TTS buttons to headers
         const courseData = {
             'w1-2': {
                 en: `
@@ -711,7 +762,10 @@
 
                 <div id="w1" class="tab-content active">
                     <div class="content-block">
-                        <h3>🎯 Week 1 Objectives</h3>
+                        <div class="content-header-row">
+                            <h3>🎯 Week 1 Objectives</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Welcome to ITBM-EMI. This week, we align our goals and conduct a self-audit of your PM competencies (KSA).</p>
                         <ul>
                             <li>Understand the "Dual-Track" learning: PM Competency + EMI/GenAI.</li>
@@ -721,7 +775,10 @@
                     </div>
 
                     <div class="content-block">
-                        <h3>🤖 AI Co-pilot Activity</h3>
+                        <div class="content-header-row">
+                            <h3>🤖 AI Co-pilot Activity</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Use ChatGPT/Gemini to critique your career path. Copy/Paste the prompt below:</p>
                         <div class="prompt-box">
                             "I am a university student majoring in [Your Major]. I want to become a Product Manager in [Target Industry]. List 3 critical hard skills and 3 soft skills I need to learn in this 'Industry Trends' course."
@@ -743,13 +800,19 @@
 
                 <div id="w2" class="tab-content">
                     <div class="content-block">
-                        <h3>🗺️ Week 2: Career Positioning Map</h3>
+                        <div class="content-header-row">
+                            <h3>🗺️ Week 2: Career Positioning Map</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>We define your target using the "Zoom-in" approach:</p>
                         <p><em>Industry ➔ Enterprise ➔ Department ➔ Job Title ➔ Duties ➔ Competency</em></p>
                     </div>
 
                     <div class="content-block">
-                        <h3>📝 Worksheet #2: Competency Radar</h3>
+                        <div class="content-header-row">
+                            <h3>📝 Worksheet #2: Competency Radar</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <ul>
                             <li><strong>Step 1:</strong> Find a real Job Description (JD) on LinkedIn or 104.</li>
                             <li><strong>Step 2:</strong> Map required skills to the 6-point radar (Business, Tech, Empathy, Data, PjM, Comm).</li>
@@ -782,7 +845,10 @@
 
                 <div id="w1" class="tab-content active">
                     <div class="content-block">
-                        <h3>🎯 第一週目標</h3>
+                        <div class="content-header-row">
+                            <h3>🎯 第一週目標</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>歡迎來到 ITBM-EMI。本週我們將對齊課程目標，並針對您的 PM 職能 (KSA) 進行自我盤點。</p>
                         <ul>
                             <li>理解「雙軌學習」模式：PM 職能養成 + EMI/GenAI 應用。</li>
@@ -792,7 +858,10 @@
                     </div>
 
                     <div class="content-block">
-                        <h3>🤖 AI 輔助活動</h3>
+                        <div class="content-header-row">
+                            <h3>🤖 AI 輔助活動</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>利用 ChatGPT/Gemini 評估您的職涯路徑。請複製以下 Prompt：</p>
                         <div class="prompt-box">
                             "I am a university student majoring in [Your Major]. I want to become a Product Manager in [Target Industry]. List 3 critical hard skills and 3 soft skills I need to learn in this 'Industry Trends' course."
@@ -814,13 +883,19 @@
 
                 <div id="w2" class="tab-content">
                     <div class="content-block">
-                        <h3>🗺️ 第二週：職涯定位層級圖</h3>
+                        <div class="content-header-row">
+                            <h3>🗺️ 第二週：職涯定位層級圖</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>使用「由大到小 (Zoom-in)」的方法定義您的目標：</p>
                         <p><em>產業 (Industry) ➔ 企業 (Enterprise) ➔ 部門 (Department) ➔ 職稱 (Job Title) ➔ 職務 (Duties) ➔ 職能 (Competency)</em></p>
                     </div>
 
                     <div class="content-block">
-                        <h3>📝 學習單 #2：職能雷達圖</h3>
+                        <div class="content-header-row">
+                            <h3>📝 學習單 #2：職能雷達圖</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <ul>
                             <li><strong>步驟 1：</strong> 在 LinkedIn 或 104 上找到一份真實的職缺描述 (JD)。</li>
                             <li><strong>步驟 2：</strong> 將所需技能對應到 6 點雷達圖 (商業思維、技術理解、同理心、數據分析、專案管理、溝通)。</li>
@@ -855,7 +930,10 @@
 
                 <div id="w3" class="tab-content active">
                     <div class="content-block">
-                        <h3>📚 Week 3: Frameworks</h3>
+                        <div class="content-header-row">
+                            <h3>📚 Week 3: Frameworks</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Understand the <strong>PESTEL</strong> framework and the Semiconductor <strong>Smile Curve</strong>.</p>
                         <h4>Required Reading</h4>
                         <ul>
@@ -865,7 +943,10 @@
                     </div>
 
                     <div class="content-block">
-                        <h3>🧠 Group Task: Coggle Mindmap</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 Group Task: Coggle Mindmap</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Collaborate with your group to map <strong>"Global Semiconductor Value Chain & Risks"</strong>.</p>
                         <ul>
                             <li>Branch 1: Upstream (EDA/IP) / Midstream (Mfg) / Downstream.</li>
@@ -889,7 +970,10 @@
 
                 <div id="w4" class="tab-content">
                     <div class="content-block">
-                        <h3>🏭 Week 4: Project Global Footprint</h3>
+                        <div class="content-header-row">
+                            <h3>🏭 Week 4: Project Global Footprint</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p><strong>Scenario:</strong> You are a Strategic PM at a top Foundry. Board dilemma: Expand in Taiwan or Germany?</p>
                         <h4>Required Videos</h4>
                         <ul>
@@ -899,7 +983,10 @@
                     </div>
 
                     <div class="content-block">
-                        <h3>🤖 AI Red Teaming</h3>
+                        <div class="content-header-row">
+                            <h3>🤖 AI Red Teaming</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Use AI to simulate opposition. Prompt example:</p>
                         <div class="prompt-box">
                             "Act as a German Metalworkers' Union Leader. Challenge my plan to bring Taiwanese work culture to the Dresden fab. Be critical about work-life balance."
@@ -935,7 +1022,10 @@
 
                 <div id="w3" class="tab-content active">
                     <div class="content-block">
-                        <h3>📚 第 3 週：分析架構</h3>
+                        <div class="content-header-row">
+                            <h3>📚 第 3 週：分析架構</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>理解 <strong>PESTEL</strong> 分析架構與半導體產業的 <strong>微笑曲線</strong>。</p>
                         <h4>指定閱讀</h4>
                         <ul>
@@ -945,7 +1035,10 @@
                     </div>
 
                     <div class="content-block">
-                        <h3>🧠 小組任務：Coggle 心智圖</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 小組任務：Coggle 心智圖</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>協作繪製 <strong>「全球半導體價值鏈與地緣政治風險」</strong>。</p>
                         <ul>
                             <li>分支 1：上游 (EDA/IP) / 中游 (製造) / 下游 (封測)。</li>
@@ -969,7 +1062,10 @@
 
                 <div id="w4" class="tab-content">
                     <div class="content-block">
-                        <h3>🏭 第 4 週：全球布局計畫 (Project Global Footprint)</h3>
+                        <div class="content-header-row">
+                            <h3>🏭 第 4 週：全球布局計畫 (Project Global Footprint)</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p><strong>情境：</strong> 您是頂尖晶圓代工廠的策略 PM。董事會難題：在台灣擴廠還是去德國？</p>
                         <h4>指定影片</h4>
                         <ul>
@@ -979,7 +1075,10 @@
                     </div>
 
                     <div class="content-block">
-                        <h3>🤖 AI 紅隊演練 (Red Teaming)</h3>
+                        <div class="content-header-row">
+                            <h3>🤖 AI 紅隊演練 (Red Teaming)</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>使用 AI 模擬反對意見。Prompt 範例：</p>
                         <div class="prompt-box">
                             "Act as a German Metalworkers' Union Leader. Challenge my plan to bring Taiwanese work culture to the Dresden fab. Be critical about work-life balance."
@@ -1017,7 +1116,10 @@
 
                 <div id="w5" class="tab-content active">
                     <div class="content-block">
-                        <h3>📚 Week 5: Design Thinking & Silver Economy</h3>
+                        <div class="content-header-row">
+                            <h3>📚 Week 5: Design Thinking & Silver Economy</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>We move from Macro (Economy) to Micro (User). Learn the 5 Steps of Design Thinking.</p>
                         <h4>Required Reading</h4>
                         <ul>
@@ -1027,7 +1129,10 @@
                     </div>
 
                     <div class="content-block">
-                        <h3>🧠 Group Task: Coggle Mindmap</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 Group Task: Coggle Mindmap</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Map <strong>"The Silver Ecosystem"</strong>.</p>
                         <ul>
                             <li><strong>PESTEL:</strong> What drives the silver economy?</li>
@@ -1051,7 +1156,10 @@
 
                 <div id="w6" class="tab-content">
                     <div class="content-block">
-                        <h3>🏠 Week 6: Project Dignity</h3>
+                        <div class="content-header-row">
+                            <h3>🏠 Week 6: Project Dignity</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p><strong>Scenario:</strong> Mrs. Lin (78) lives alone. She needs safety but refuses "surveillance". How do we balance safety vs. dignity?</p>
                         <h4>Required Videos</h4>
                         <ul>
@@ -1061,7 +1169,10 @@
                     </div>
 
                     <div class="content-block">
-                        <h3>🤖 AI Persona Interview</h3>
+                        <div class="content-header-row">
+                            <h3>🤖 AI Persona Interview</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Simulate a chat with Mrs. Lin. Don't ask AI for the answer; ask AI to <em>be</em> the user.</p>
                         <div class="prompt-box">
                             "Act as Mrs. Lin, a 78-year-old retired teacher in Taiwan. You are proud and independent. I am a PM trying to sell you a safety device. You are skeptical and fear losing your privacy. Answer in Traditional Chinese."
@@ -1097,7 +1208,10 @@
 
                 <div id="w5" class="tab-content active">
                     <div class="content-block">
-                        <h3>📚 第 5 週：設計思考與銀髮經濟</h3>
+                        <div class="content-header-row">
+                            <h3>📚 第 5 週：設計思考與銀髮經濟</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>我們從總體 (經濟) 轉向個體 (使用者)。學習設計思考的五個步驟。</p>
                         <h4>指定閱讀</h4>
                         <ul>
@@ -1107,7 +1221,10 @@
                     </div>
 
                     <div class="content-block">
-                        <h3>🧠 小組任務：Coggle 心智圖</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 小組任務：Coggle 心智圖</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>繪製 <strong>「銀髮生態系」</strong>。</p>
                         <ul>
                             <li><strong>PESTEL：</strong> 驅動銀髮經濟的因素是什麼？</li>
@@ -1131,7 +1248,10 @@
 
                 <div id="w6" class="tab-content">
                     <div class="content-block">
-                        <h3>🏠 第 6 週：尊嚴守護計畫 (Project Dignity)</h3>
+                        <div class="content-header-row">
+                            <h3>🏠 第 6 週：尊嚴守護計畫 (Project Dignity)</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p><strong>情境：</strong> 林女士 (78歲) 獨居。她需要安全保障，但拒絕「被監控」。我們如何在安全與尊嚴之間取得平衡？</p>
                         <h4>指定影片</h4>
                         <ul>
@@ -1141,7 +1261,10 @@
                     </div>
 
                     <div class="content-block">
-                        <h3>🤖 AI 人物誌訪談</h3>
+                        <div class="content-header-row">
+                            <h3>🤖 AI 人物誌訪談</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>模擬與林女士的對話。不要問 AI 答案；請 AI <strong>扮演</strong> 使用者。</p>
                         <div class="prompt-box">
                             "Act as Mrs. Lin, a 78-year-old retired teacher in Taiwan. You are proud and independent. I am a PM trying to sell you a safety device. You are skeptical and fear losing your privacy. Answer in Traditional Chinese."
@@ -1177,7 +1300,10 @@
                 </div>
                 <div id="w7" class="tab-content active">
                     <div class="content-block">
-                        <h3>📚 Week 7: Business Model Canvas (BMC) + VPC</h3>
+                        <div class="content-header-row">
+                            <h3>📚 Week 7: Business Model Canvas (BMC) + VPC</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Master the <strong>Business Model Canvas</strong> and the <strong>Value-Price-Cost</strong> framework to design and evaluate new ventures.</p>
                         <h4>🪝 Hook Question</h4>
                         <p><em>"If you had to start a drone company TODAY, what would you sell and to whom?"</em> — Mentimeter live vote!</p>
@@ -1188,13 +1314,19 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 Group Task: Coggle Mindmap</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 Group Task: Coggle Mindmap</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Map a <strong>BMC for a real drone startup</strong>. Each group covers 9 blocks for their assigned application scenario.</p>
                         <h4>TU Focus: Ch2 Logic — Deduction</h4>
                         <p>Use <strong>deductive reasoning</strong> to build business hypotheses: "If [customer segment] needs [value proposition], then [revenue model] should work because [rule]."</p>
                     </div>
                     <div class="content-block" style="border-left: 3px solid var(--accent-green); padding-left: 15px;">
-                        <h3>⚠️ Midterm Peer Review</h3>
+                        <div class="content-header-row">
+                            <h3>⚠️ Midterm Peer Review</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Complete the <strong>Midterm Peer Review</strong> form on Moodle to evaluate your teammates' contribution.</p>
                     </div>
                     <div class="task-list">
@@ -1206,7 +1338,10 @@
                 </div>
                 <div id="w8" class="tab-content">
                     <div class="content-block">
-                        <h3>🚁 Week 8: Drone — Application Scenarios & Regulatory Games</h3>
+                        <div class="content-header-row">
+                            <h3>🚁 Week 8: Drone — Application Scenarios & Regulatory Games</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p><strong>Hook:</strong> Watch the 1-minute drone delivery video. <em>"Why isn't this everywhere yet?"</em></p>
                         <h4>Sub-topic Allocation (by Application Scenario)</h4>
                         <ul>
@@ -1219,7 +1354,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 TU Analysis Framework</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 TU Analysis Framework</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <h4>TU Focus: Ch4 Analysis — Thesis/Anti-thesis/Synthesis</h4>
                         <p>Apply <strong>dialectic analysis</strong> to the regulation debate:</p>
                         <ul>
@@ -1229,7 +1367,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🤖 AI Process</h3>
+                        <div class="content-header-row">
+                            <h3>🤖 AI Process</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Show your AI interaction: Prompt design + critique. Try this:</p>
                         <div class="prompt-box">"Act as a civil aviation regulator in Taiwan. I want to launch a commercial drone delivery service in Puli, Nantou County. Challenge my business plan with safety and airspace concerns."</div>
                     </div>
@@ -1251,7 +1392,10 @@
                 </div>
                 <div id="w7" class="tab-content active">
                     <div class="content-block">
-                        <h3>📚 第 7 週：商業模式畫布 (BMC) + VPC</h3>
+                        <div class="content-header-row">
+                            <h3>📚 第 7 週：商業模式畫布 (BMC) + VPC</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>學習<strong>商業模式畫布</strong>與<strong>價值-價格-成本</strong>框架，設計與評估新創事業。</p>
                         <h4>🪝 Hook 問題</h4>
                         <p><em>「如果你今天要開一家無人機公司，你要賣什麼？賣給誰？」</em> — Mentimeter 即時投票！</p>
@@ -1262,13 +1406,19 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 小組任務：Coggle 心智圖</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 小組任務：Coggle 心智圖</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>為一家<strong>真實的無人機新創</strong>繪製 BMC。每組針對指定應用場景填寫 9 大區塊。</p>
                         <h4>TU 焦點：Ch2 邏輯 — 演繹法</h4>
                         <p>用<strong>演繹推理</strong>建構商業假說：「如果 [目標客群] 需要 [價值主張]，那麼 [收益模式] 應該可行，因為 [規則]。」</p>
                     </div>
                     <div class="content-block" style="border-left: 3px solid var(--accent-green); padding-left: 15px;">
-                        <h3>⚠️ 期中同儕互評</h3>
+                        <div class="content-header-row">
+                            <h3>⚠️ 期中同儕互評</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>請在 Moodle 上完成<strong>期中同儕互評</strong>表單，評估組員的貢獻。</p>
                     </div>
                     <div class="task-list">
@@ -1280,7 +1430,10 @@
                 </div>
                 <div id="w8" class="tab-content">
                     <div class="content-block">
-                        <h3>🚁 第 8 週：無人機 — 應用場景與法規賽局</h3>
+                        <div class="content-header-row">
+                            <h3>🚁 第 8 週：無人機 — 應用場景與法規賽局</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p><strong>Hook：</strong>觀看 1 分鐘無人機送貨影片。<em>「為什麼這項服務還沒普及？」</em></p>
                         <h4>子題分配（依應用場景）</h4>
                         <ul>
@@ -1293,7 +1446,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 TU 分析框架</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 TU 分析框架</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <h4>TU 焦點：Ch4 分析 — 正/反/合辯證</h4>
                         <p>對法規爭議進行<strong>辯證分析</strong>：</p>
                         <ul>
@@ -1303,7 +1459,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🤖 AI 使用歷程</h3>
+                        <div class="content-header-row">
+                            <h3>🤖 AI 使用歷程</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>展示你的 AI 互動：Prompt 設計 + 批判。試試這個：</p>
                         <div class="prompt-box">「你是台灣民航局的監管官員。我想在南投縣埔里鎮推出商用無人機送貨服務。請針對安全與空域管理提出挑戰。」</div>
                     </div>
@@ -1327,7 +1486,10 @@
                 </div>
                 <div id="w9" class="tab-content active">
                     <div class="content-block">
-                        <h3>📚 Week 9: Co-opetition & Platform Model</h3>
+                        <div class="content-header-row">
+                            <h3>📚 Week 9: Co-opetition & Platform Model</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Explore the dynamics of <strong>Co-opetition</strong> (simultaneous cooperation and competition) and <strong>Platform Revolution</strong>.</p>
                         <h4>🪝 Hook Question</h4>
                         <p><em>"Is OpenAI your friend or your enemy if you're Microsoft? What about Google?"</em></p>
@@ -1338,7 +1500,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 Group Task: Coggle Mindmap</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 Group Task: Coggle Mindmap</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Map the <strong>Agentic AI ecosystem</strong> using the co-opetition lens: Who competes? Who cooperates? Who does both?</p>
                         <h4>TU Focus: Ch4 Analysis — Dialectic Applied to Competitive Dynamics</h4>
                         <p>Use the Thesis/Anti-thesis/Synthesis structure to analyze the <strong>platform vs. vertical integration</strong> debate in AI.</p>
@@ -1351,7 +1516,10 @@
                 </div>
                 <div id="w10" class="tab-content">
                     <div class="content-block">
-                        <h3>🤖 Week 10: Agentic AI — Autonomous Agents & Industry Restructuring</h3>
+                        <div class="content-header-row">
+                            <h3>🤖 Week 10: Agentic AI — Autonomous Agents & Industry Restructuring</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p><strong>Hook:</strong> <em>"How many times did you use ChatGPT last week? Did it ever feel like it truly understood you?"</em></p>
                         <h4>Sub-topic Allocation (by Ecosystem Role)</h4>
                         <ul>
@@ -1364,7 +1532,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 TU Analysis Framework</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 TU Analysis Framework</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <h4>TU Focus: Ch5 Hypothesis — X-Y-Me-Mo Variable Modeling</h4>
                         <p>Build a <strong>causal path diagram</strong> for your sub-topic:</p>
                         <ul>
@@ -1375,7 +1546,10 @@
                         </ul>
                     </div>
                     <div class="content-block" style="border-left: 3px solid var(--accent-green); padding-left: 15px;">
-                        <h3>📋 Term Project Topic Confirmed</h3>
+                        <div class="content-header-row">
+                            <h3>📋 Term Project Topic Confirmed</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Your group must have your <strong>TP topic signed up on Moodle</strong> by end of Week 10.</p>
                     </div>
                     <div class="task-list">
@@ -1396,7 +1570,10 @@
                 </div>
                 <div id="w9" class="tab-content active">
                     <div class="content-block">
-                        <h3>📚 第 9 週：競合策略與平台模式</h3>
+                        <div class="content-header-row">
+                            <h3>📚 第 9 週：競合策略與平台模式</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>探索<strong>競合</strong>（同時合作與競爭）的動態與<strong>平台革命</strong>。</p>
                         <h4>🪝 Hook 問題</h4>
                         <p><em>「如果你是微軟，OpenAI 是朋友還是敵人？Google 呢？」</em></p>
@@ -1407,7 +1584,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 小組任務：Coggle 心智圖</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 小組任務：Coggle 心智圖</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>用競合視角繪製 <strong>Agentic AI 生態系</strong>：誰在競爭？誰在合作？誰兩者皆是？</p>
                         <h4>TU 焦點：Ch4 分析 — 辯證法應用於競爭動態</h4>
                         <p>用正/反/合結構分析 AI 領域的<strong>平台 vs. 垂直整合</strong>之爭。</p>
@@ -1420,7 +1600,10 @@
                 </div>
                 <div id="w10" class="tab-content">
                     <div class="content-block">
-                        <h3>🤖 第 10 週：代理式 AI — 自主代理與產業重構</h3>
+                        <div class="content-header-row">
+                            <h3>🤖 第 10 週：代理式 AI — 自主代理與產業重構</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p><strong>Hook：</strong><em>「你上週用了幾次 ChatGPT？它有沒有哪次的回答讓你覺得『它好像真的懂我』？」</em></p>
                         <h4>子題分配（依生態系角色）</h4>
                         <ul>
@@ -1433,7 +1616,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 TU 分析框架</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 TU 分析框架</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <h4>TU 焦點：Ch5 實證 — X-Y-Me-Mo 變數建模</h4>
                         <p>為你的子題建構<strong>因果路徑圖</strong>：</p>
                         <ul>
@@ -1444,7 +1630,10 @@
                         </ul>
                     </div>
                     <div class="content-block" style="border-left: 3px solid var(--accent-green); padding-left: 15px;">
-                        <h3>📋 期末專案選題確認</h3>
+                        <div class="content-header-row">
+                            <h3>📋 期末專案選題確認</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>你的小組必須在第 10 週結束前，在 Moodle 上<strong>完成 TP 選題登記</strong>。</p>
                     </div>
                     <div class="task-list">
@@ -1467,7 +1656,10 @@
                 </div>
                 <div id="w11" class="tab-content active">
                     <div class="content-block">
-                        <h3>📚 Week 11: NPD Stage Model + Technology Adoption Lifecycle</h3>
+                        <div class="content-header-row">
+                            <h3>📚 Week 11: NPD Stage Model + Technology Adoption Lifecycle</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Learn the <strong>New Product Development</strong> stage model and Geoffrey Moore's <strong>Crossing the Chasm</strong> theory.</p>
                         <h4>🪝 Hook Question</h4>
                         <p><em>"Why can robots still not fold laundry? What's the REAL bottleneck?"</em></p>
@@ -1478,7 +1670,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 Group Task: Coggle Mindmap</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 Group Task: Coggle Mindmap</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Map the <strong>Technology Adoption Curve for Physical AI</strong>. Where is each application domain on the curve? What must happen to cross the chasm?</p>
                         <h4>TU Focus: Ch3 Research + Ch5 Hypothesis Combined</h4>
                         <p>Combine research methods selection with variable modeling to build an evidence-based argument.</p>
@@ -1491,7 +1686,10 @@
                 </div>
                 <div id="w12" class="tab-content">
                     <div class="content-block">
-                        <h3>🤖 Week 12: Physical AI — Embodied Intelligence & Crossing the Chasm</h3>
+                        <div class="content-header-row">
+                            <h3>🤖 Week 12: Physical AI — Embodied Intelligence & Crossing the Chasm</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p><strong>Hook:</strong> Boston Dynamics vs Humanoid robot compilation (1 min). <em>"Which industry adopts this first and why?"</em></p>
                         <h4>Sub-topic Allocation (by Application Domain)</h4>
                         <ul>
@@ -1504,7 +1702,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 TU Full Framework Integration</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 TU Full Framework Integration</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>This is the first module where <strong>all 5 TU steps</strong> are required together:</p>
                         <ul>
                             <li><strong>1. Observation (ORID):</strong> Facts → Feelings → Findings → Direction</li>
@@ -1515,7 +1716,10 @@
                         </ul>
                     </div>
                     <div class="content-block" style="border-left: 3px solid var(--accent-green); padding-left: 15px;">
-                        <h3>📋 TP Proposal Due</h3>
+                        <div class="content-header-row">
+                            <h3>📋 TP Proposal Due</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Submit your <strong>3-page TP Proposal (PDF)</strong> on Moodle by end of Week 12.</p>
                     </div>
                     <div class="task-list">
@@ -1536,13 +1740,19 @@
                 </div>
                 <div id="w11" class="tab-content active">
                     <div class="content-block">
-                        <h3>📚 第 11 週：NPD 階段模型 + 技術採用生命週期</h3>
+                        <div class="content-header-row">
+                            <h3>📚 第 11 週：NPD 階段模型 + 技術採用生命週期</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>學習<strong>新產品開發</strong>階段模型與 Geoffrey Moore 的<strong>跨越鴻溝</strong>理論。</p>
                         <h4>🪝 Hook 問題</h4>
                         <p><em>「為什麼機器人到現在還不會摺衣服？真正的瓶頸是什麼？」</em></p>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 小組任務：Coggle 心智圖</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 小組任務：Coggle 心智圖</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>繪製<strong>實體 AI 的技術採用曲線</strong>。每個應用領域在曲線上的位置？要跨越鴻溝需要什麼？</p>
                         <h4>TU 焦點：Ch3 探究 + Ch5 實證 結合</h4>
                         <p>結合研究方法選擇與變數建模，建構有證據支持的論述。</p>
@@ -1555,7 +1765,10 @@
                 </div>
                 <div id="w12" class="tab-content">
                     <div class="content-block">
-                        <h3>🤖 第 12 週：實體 AI — 具身智慧與跨越鴻溝</h3>
+                        <div class="content-header-row">
+                            <h3>🤖 第 12 週：實體 AI — 具身智慧與跨越鴻溝</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p><strong>Hook：</strong>Boston Dynamics vs 人形機器人合輯（1 分鐘）。<em>「哪個產業會最先採用？為什麼？」</em></p>
                         <h4>子題分配（依應用領域）</h4>
                         <ul>
@@ -1568,7 +1781,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 TU 全框架整合</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 TU 全框架整合</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>本模組首次要求同時完成 <strong>TU 五步驟</strong>：</p>
                         <ul>
                             <li><strong>1. 觀察（ORID）：</strong>事實 → 感受 → 發現 → 方向</li>
@@ -1579,7 +1795,10 @@
                         </ul>
                     </div>
                     <div class="content-block" style="border-left: 3px solid var(--accent-green); padding-left: 15px;">
-                        <h3>📋 TP 提案截止</h3>
+                        <div class="content-header-row">
+                            <h3>📋 TP 提案截止</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>請在第 12 週結束前，在 Moodle 上提交<strong> 3 頁 TP 提案（PDF）</strong>。</p>
                     </div>
                     <div class="task-list">
@@ -1602,7 +1821,10 @@
                 </div>
                 <div id="w13" class="tab-content active">
                     <div class="content-block">
-                        <h3>📚 Week 13: Scenario Planning & Risk Matrix</h3>
+                        <div class="content-header-row">
+                            <h3>📚 Week 13: Scenario Planning & Risk Matrix</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Learn <strong>Scenario Planning</strong> — a method for making strategic decisions under deep uncertainty by mapping multiple plausible futures.</p>
                         <h4>🪝 Hook Question</h4>
                         <p><em>"It's 2035. Draw the intersection outside your home. Are there self-driving cars? How many? Who owns them?"</em></p>
@@ -1614,7 +1836,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 Group Task: Coggle Mindmap</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 Group Task: Coggle Mindmap</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Build a <strong>Scenario Planning Map for Autonomous Vehicles</strong>. Use the 2×2 matrix as the central node, with branches for each quadrant showing key implications.</p>
                         <h4>TU Focus: Ch5 Hypothesis — Multi-scenario Construction</h4>
                         <p>Each scenario is a testable hypothesis. Define the <strong>variables</strong> that differ across scenarios.</p>
@@ -1627,7 +1852,10 @@
                 </div>
                 <div id="w14" class="tab-content">
                     <div class="content-block">
-                        <h3>🚗 Week 14: Auto-Driving — Strategy Under Uncertainty</h3>
+                        <div class="content-header-row">
+                            <h3>🚗 Week 14: Auto-Driving — Strategy Under Uncertainty</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p><strong>Hook:</strong> <em>"If you're an insurance company CEO, does self-driving save you or destroy you?"</em></p>
                         <h4>Sub-topic Allocation (by Stakeholder)</h4>
                         <ul>
@@ -1640,7 +1868,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 Full-Stack Analysis (Integrates ALL Semester Tools)</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 Full-Stack Analysis (Integrates ALL Semester Tools)</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>This is the capstone analytical exercise. Your presentation must include:</p>
                         <ul>
                             <li>✅ <strong>ORID Observation</strong> — Separate facts from opinions</li>
@@ -1652,7 +1883,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>👥 TU 5-Step Peer Review</h3>
+                        <div class="content-header-row">
+                            <h3>👥 TU 5-Step Peer Review</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>Non-presenting groups evaluate using the TU framework as a rubric. Written feedback in English.</p>
                     </div>
                     <div class="task-list">
@@ -1673,7 +1907,10 @@
                 </div>
                 <div id="w13" class="tab-content active">
                     <div class="content-block">
-                        <h3>📚 第 13 週：情境規劃與風險矩陣</h3>
+                        <div class="content-header-row">
+                            <h3>📚 第 13 週：情境規劃與風險矩陣</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>學習<strong>情境規劃</strong>——在高度不確定性下，透過描繪多種可能未來來制定策略決策。</p>
                         <h4>🪝 Hook 問題</h4>
                         <p><em>「現在是 2035 年。畫出你家門口的十字路口。有自駕車嗎？幾輛？誰的車？」</em></p>
@@ -1685,7 +1922,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 小組任務：Coggle 心智圖</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 小組任務：Coggle 心智圖</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>建構<strong>自駕車情境規劃地圖</strong>。以 2×2 矩陣為中心節點，每個象限展開分支說明關鍵影響。</p>
                         <h4>TU 焦點：Ch5 實證 — 多情境假說建構</h4>
                         <p>每個情境都是一個可驗證的假說。定義跨情境差異的<strong>變數</strong>。</p>
@@ -1698,7 +1938,10 @@
                 </div>
                 <div id="w14" class="tab-content">
                     <div class="content-block">
-                        <h3>🚗 第 14 週：自駕車 — 不確定性下的策略</h3>
+                        <div class="content-header-row">
+                            <h3>🚗 第 14 週：自駕車 — 不確定性下的策略</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p><strong>Hook：</strong><em>「如果你是保險公司的 CEO，自駕車是救了你還是毀了你？」</em></p>
                         <h4>子題分配（依利害關係人）</h4>
                         <ul>
@@ -1711,7 +1954,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>🧠 全方位分析（整合全學期工具）</h3>
+                        <div class="content-header-row">
+                            <h3>🧠 全方位分析（整合全學期工具）</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>這是學期的總結分析練習。你的簡報必須包含：</p>
                         <ul>
                             <li>✅ <strong>ORID 觀察</strong> — 區分事實與觀點</li>
@@ -1723,7 +1969,10 @@
                         </ul>
                     </div>
                     <div class="content-block">
-                        <h3>👥 TU 五步驟同儕互評</h3>
+                        <div class="content-header-row">
+                            <h3>👥 TU 五步驟同儕互評</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>非報告組用 TU 框架作為評分標準進行評估。以英文撰寫回饋。</p>
                     </div>
                     <div class="task-list">
@@ -1746,7 +1995,10 @@
                 </div>
                 <div id="w15" class="tab-content active">
                     <div class="content-block">
-                        <h3>🎬 Week 15: TP Production + TU Advanced</h3>
+                        <div class="content-header-row">
+                            <h3>🎬 Week 15: TP Production + TU Advanced</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p>All groups work on their Term Project. No rotation presentations this week.</p>
                         <h4>TU Deep Workshop: Ch4 Dialectic + Ch5 Variable Model</h4>
                         <ul>
@@ -1768,7 +2020,10 @@
                 </div>
                 <div id="w16" class="tab-content">
                     <div class="content-block">
-                        <h3>🏆 Week 16: Term Project Final Presentation</h3>
+                        <div class="content-header-row">
+                            <h3>🏆 Week 16: Term Project Final Presentation</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="Read Aloud">🔊</button>
+                        </div>
                         <p><strong>Online Video Competition</strong> — All groups present their 15-minute TP videos.</p>
                         <ul>
                             <li>Between-Group Evaluation</li>
@@ -1794,7 +2049,10 @@
                 </div>
                 <div id="w15" class="tab-content active">
                     <div class="content-block">
-                        <h3>🎬 第 15 週：TP 製作 + TU 進階工作坊</h3>
+                        <div class="content-header-row">
+                            <h3>🎬 第 15 週：TP 製作 + TU 進階工作坊</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p>所有小組進行期末專案製作。本週無輪轉簡報。</p>
                         <h4>TU 深度工作坊：Ch4 辯證 + Ch5 變數模型</h4>
                         <ul>
@@ -1816,7 +2074,10 @@
                 </div>
                 <div id="w16" class="tab-content">
                     <div class="content-block">
-                        <h3>🏆 第 16 週：期末專案發表</h3>
+                        <div class="content-header-row">
+                            <h3>🏆 第 16 週：期末專案發表</h3>
+                            <button class="icon-btn tts-btn" onclick="speakText(this)" title="語音朗讀">🔊</button>
+                        </div>
                         <p><strong>線上影片競賽</strong> — 所有小組發表 15 分鐘 TP 影片。</p>
                         <ul>
                             <li>組間互評</li>
@@ -2005,7 +2266,15 @@
             const today = new Date();
             document.getElementById('date-display').innerText = today.toISOString().split('T')[0];
             loadTheme();
-            // Default to English is fine, no action needed unless we want to persist lang
+            
+            // Load saved language preference
+            const savedLang = localStorage.getItem('itbm_lang');
+            if (savedLang && (savedLang === 'en' || savedLang === 'zh')) {
+                // If saved lang is different from default 'en', switch to it
+                if (savedLang !== currentLang) {
+                    toggleLanguage(); 
+                }
+            }
         });
 
         // 2. Navigation
@@ -2046,10 +2315,9 @@
             // Switch state
             currentLang = currentLang === 'en' ? 'zh' : 'en';
             
-            // Update Lang Button Text
-            const langBtn = document.querySelector('.lang-btn');
-            langBtn.innerText = currentLang === 'en' ? 'ENG' : '繁中';
-
+            // Save to localStorage
+            localStorage.setItem('itbm_lang', currentLang);
+            
             // Update Body Class for Fonts
             if (currentLang === 'zh') {
                 document.body.classList.add('lang-zh');
@@ -2070,12 +2338,6 @@
             // Reload Current Content (if a module is open)
             if (currentModule) {
                 loadContent(currentModule);
-            } else {
-                // If on homepage (start screen), reload start screen text manually is handled by data-i18n, 
-                // but if we are on the initial landing view without clicking anything yet:
-                // Actually the initial view is static HTML. 
-                // Let's ensure the "Start Learning" button inside Main works.
-                // It has data-i18n, so it updated above.
             }
         }
 
@@ -2095,7 +2357,50 @@
             evt.currentTarget.classList.add("active");
         }
 
-        // 5. Progress Tracking (LocalStorage)
+        // 5. TTS Logic
+        function speakText(btn) {
+            if ('speechSynthesis' in window) {
+                const synth = window.speechSynthesis;
+                if (synth.speaking) {
+                    synth.cancel();
+                    return; 
+                }
+
+                const block = btn.closest('.content-block');
+                // clone to exclude hidden text or buttons
+                let text = block.innerText;
+                // Clean up text: remove "🔊" and button text
+                text = text.replace('🔊', '').replace('Read Aloud', '').replace('語音朗讀', '').trim();
+
+                const utterThis = new SpeechSynthesisUtterance(text);
+                
+                // Voices
+                const voices = synth.getVoices();
+                let targetVoice;
+                
+                if (currentLang === 'en') {
+                    // UK Male preference
+                    targetVoice = voices.find(v => v.lang === 'en-GB' && v.name.includes('Male')) 
+                               || voices.find(v => v.lang === 'en-GB')
+                               || voices.find(v => v.lang.startsWith('en'));
+                } else {
+                    // TW Yating preference
+                    targetVoice = voices.find(v => v.name.includes('Yating')) 
+                               || voices.find(v => v.lang === 'zh-TW')
+                               || voices.find(v => v.lang.startsWith('zh'));
+                }
+
+                if (targetVoice) {
+                    utterThis.voice = targetVoice;
+                }
+
+                synth.speak(utterThis);
+            } else {
+                alert("Text-to-Speech not supported in this browser.");
+            }
+        }
+
+        // 6. Progress Tracking (LocalStorage)
         function saveProgress(id) {
             let progress = JSON.parse(localStorage.getItem('itbm_progress')) || {};
             
@@ -2158,7 +2463,7 @@
             }
         }
 
-        // 6. CSV Export
+        // 7. CSV Export
         function exportCSV(e) {
             e.preventDefault();
             
@@ -2194,7 +2499,10 @@
             const url = URL.createObjectURL(blob);
             link.setAttribute("href", url);
             
-            const safeName = name.replace(/[^a-zA-Z0-9]/g, "");
+            // Filename: ITBM_G1_IBS3_JeremyWang_W3.csv
+            // Fixed Regex to allow Chinese characters but remove illegal filename chars
+            // Allow letters, numbers, chinese chars, underscores, hyphens
+            const safeName = name.replace(/[^\w\u4e00-\u9fa5\-]/g, ""); 
             const filename = `ITBM_${group}_${grade}_${safeName}_${week}.csv`;
             
             link.setAttribute("download", filename);
@@ -2203,7 +2511,7 @@
             document.body.removeChild(link);
         }
 
-        // 7. Theme Logic
+        // 8. Theme Logic
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
             const isLight = document.body.classList.contains('light-mode');
